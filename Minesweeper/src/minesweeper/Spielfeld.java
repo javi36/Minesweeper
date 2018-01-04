@@ -7,7 +7,7 @@ public class Spielfeld {
 	public int zeile = 9;
 	public int anzBomben;
 
-	 
+	 /*hahaha*/
 	public void makeSpielfeld() {
 		for (int i = 1; i < spalte+1; i++) {
 			if (i == 0){ 
