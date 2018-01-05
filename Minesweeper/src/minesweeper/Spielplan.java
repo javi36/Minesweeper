@@ -3,47 +3,68 @@ package minesweeper;
 import java.io.IOException;
      
 public class Spielplan {
-	static int runde = 10;
+	
 	static Spielfeld myGame;
 	static userKommando user = new userKommando();
 	private static String userEingabe;
+	private static boolean spielLaueft = true;
 	
+	/*
+	 * Erstellt ein neuen Spielfeld und startet das Spiel.
+	 */
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub 
-		
 		myGame = new Spielfeld();
-		for (int i = 0; i < runde; i++) {
+		while(spielLaueft == true){
+			checkWin();
+			if (isEnde() == true) {
+				break;
+			}
 			userEingabe = user.eingabeUser();
-			doSpielzug();
+			doSpielzug();	
 		}
 
 	}
-
+	/*
+	 * Rüft kommando auf. 
+	 * TODO: Fehlt der Algorithmus.
+	 */
 	private static void doSpielzug() throws IOException{
 		user.kommando();
 		
 	}
-	
-	public void checkEnde(){
-		
+	/*
+	 * Überprüft ob der spielbeendet ist und
+	 *  gibt entsprechend true oder false zurück.
+	 */
+	private static boolean isEnde(){
+		if (user.spielEnde == true) {
+			return true;
+		}else{
+			return false;
+		}
 	}
-	
-	
-	
-	
-}
-
-/*
-String userEingabe = spieler.kommando(myGame);
-		int[] bombenPos = myGame.zellen.bombePos;
-		String[] bomben = Arrays.toString(bombenPos).split("[\\[\\]]")[1].split(", ");
-		System.out.println(Arrays.toString(bomben));
-
-		for (String bombe : bomben) {
-			if (userEingabe.equals(bombe)) {
-				System.out.println("VERLOREN");
-				myGame.setzeBombe(userEingabe);
+	/*
+	 * Überprüft ob man das Spiel gewonnen hat. 
+	 */
+	private static void checkWin(){
+		//TODO: überprüfung ob alle anderen Felder aufgedeckt sind und dann hat man gewonnen.
+		int bombenCounter = 0;
+		int[] bombenPos = myGame.zellen.bombenPos;
+		int[] flagenPos = myGame.zellen.flagenPos;
+		for (int flagePos : flagenPos) {
+			for (int bombePos : bombenPos) {
+				if (flagePos == bombePos) {
+					bombenCounter++;
+					user.spielEnde = true;
+				}
 			}
 		}
-
-*/
+		if (bombenCounter == myGame.zellen.anzBomben) {
+			user.spielEnde = true;
+			System.out.println("GEWONNEN!!!");
+		}else{
+			user.spielEnde = false;
+		}
+			
+	}	
+}
