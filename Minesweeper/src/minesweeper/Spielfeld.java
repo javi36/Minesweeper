@@ -3,13 +3,70 @@ package minesweeper;
 public class Spielfeld {
 
 	Zelle zellen = new Zelle();
-	public int spalte = 10;
+	private String[][] boardgame;
+	public int spalte = 9;
 	public int zeile = 9;
 	public int anzBomben;
-
-	 /*hahaha*/
+	 
+	Spielfeld(){
+		boardgame = new String[spalte+1][zeile+1];
+		makeSpielfeld();
+		
+	}
+	
+	
+	
 	public void makeSpielfeld() {
+		System.out.println("\n Legende: ");
+		System.out.print("\t \n * = Bombe \n + = Flage \n - = leer");
+		
+		System.out.print("\n          ");
 		for (int i = 1; i < spalte+1; i++) {
+			System.out.print("  "+i + " ");
+		//System.out.println("\n            1   2   3   4   5   6   7   8   9");
+		}
+		System.out.println();
+		for (int i = 0; i < zeile+1; i++) {
+            System.out.print("       "+i + " ");
+            
+            for (int a = 1; a < spalte+1; a++) {
+            	 boardgame[a][i] = "-";
+                    System.out.print("   "+ boardgame[a][i]);
+            }
+                
+            System.out.println();
+        }
+		System.out.println();//lücke
+		
+		System.out.println("Geben Sie ein Kommando ein: ");	
+		zellen.setBombe();
+	}
+	
+	public void zeichne(int zeichenSpalte, int zeichenZeile, String zeichen){
+		System.out.print("\n          ");
+		for (int i = 1; i < this.spalte+1; i++) {
+			System.out.print("  "+i + " ");
+		}
+		System.out.println();
+		for (int i = 0; i < this.zeile+1; i++) {
+            System.out.print("       "+i + " ");
+            
+            for (int a = 1; a < this.spalte+1; a++) {
+            	 boardgame[zeichenSpalte][zeichenZeile] = zeichen;
+                 System.out.print("   "+ boardgame[a][i]);
+            }
+                
+            System.out.println();
+        }
+		
+		System.out.println();//lücke
+		System.out.println("\t Legende: ");
+		System.out.println("\t \n * = Bombe \n + = Flage");
+	}
+	
+}
+/*
+ * for (int i = 1; i < spalte+1; i++) {
 			if (i == 0){ 
 				System.out.print(i+" ");
 			}
@@ -23,10 +80,11 @@ public class Spielfeld {
 		}
 		System.out.println("Geben Sie ein Kommando ein: ");	
 		zellen.setBombe();
-	}
-	
-	public void zeichne(int spalte, int zeile, String zeichen){
-		for (int i = 1; i < this.spalte+1; i++) {
+ */
+
+
+/*
+ for (int i = 1; i < this.spalte+1; i++) {
 			if (i == 0){
 				System.out.print(i+" ");
 			}
@@ -41,34 +99,8 @@ public class Spielfeld {
 				System.out.println("/t"+spalte+zeichen);
 			}
 		}
-	}
 	
-	
-	
-	
-}
-
-
-
-/*String[] pos = eingabe.split("", 2);
-		int spalte = Integer.parseInt(pos[0]);
-		int zeile = Integer.parseInt(pos[1]);
-		
-		for (int i = 0; i < this.zeile+1; i++) {
-			System.out.print(" "+i+" ");
-			
-		}
-		for (int i = 0; i < this.spalte+1; i++) {
-			if (i == 0) {
-				System.out.println(" ");
-			}
-			System.out.println(i);
-			if (spalte == i ) {
-				System.out.print(" * ");
-			}
-		}
-		
-		/*for (String string : pos) {
-			System.out.println(string);
-		}*/
+ * 
+ * 
+ */
 		
