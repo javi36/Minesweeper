@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class userKommando {
 	Scanner scan = new Scanner(System.in);
-	private String userEingabe;
+	public String userEingabe;
 	public boolean spielEnde = false;
 	private boolean isFlageGesetzt = false;
 	private int spalte, zeile;
@@ -74,25 +74,8 @@ public class userKommando {
 			}
 			
 		}
-		// TODO Beheben: Zeichnet 2 mal der Spielfeld wenn eine bombe in der nähe ist. 
-		// TODO restlichen Algorithmus beenden.
 		if (spielEnde == false) {
-			if (Spielplan.myGame.checkGesetzt(spalte, zeile) == false) {
-				Spielplan.myGame.zeichne(spalte, zeile, "0");
-				int userEingabePos = Integer.parseInt(userEingabe);
-				for (String bombe : bomben) {
-					int bombePos = Integer.parseInt(bombe);
-					if (userEingabePos+1 == bombePos || userEingabePos+10 == bombePos || 
-							userEingabePos+9 == bombePos || userEingabePos+11 == bombePos ||
-							userEingabePos-1 == bombePos || userEingabePos-10 == bombePos || 
-							userEingabePos-9 == bombePos || userEingabePos-11 == bombePos ) {
-						Spielplan.myGame.zeichne(spalte, zeile, "1");
-					}else{
-						//Spielplan.myGame.zeichne(spalte, zeile, "0");
-					}
-				}
-				//Spielplan.myGame.zeichne(spalte, zeile, "0");
-			}
+			Spielplan.myGame.zeichne(spalte, zeile, Spielplan.bombenNaehe());
 		}
 	}
 	/*

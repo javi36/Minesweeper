@@ -1,6 +1,7 @@
 package minesweeper;
 
 import java.io.IOException;
+import java.util.Arrays;
      
 public class Spielplan {
 	
@@ -15,10 +16,10 @@ public class Spielplan {
 	public static void main(String[] args) throws IOException {
 		myGame = new Spielfeld();
 		while(spielLaueft == true){
-			checkWin();
 			if (isEnde() == true) {
 				break;
 			}
+			checkWin();
 			userEingabe = user.eingabeUser();
 			doSpielzug();	
 		}
@@ -47,7 +48,7 @@ public class Spielplan {
 	 * überprüft ob alle anderen Felder aufgedeckt sind und die bomben markiert sind.
 	 */
 	private static void checkWin(){
-		//TODO: 
+		//TODO: diese methode manuell testen!
 		int anzMarkiertenBomben = 0;
 		int anzFlagen = user.markierenCounter+1;
 		int anzBomben = myGame.zellen.anzBomben;
@@ -69,7 +70,60 @@ public class Spielplan {
 			System.out.println("GEWONNEN!!!");
 		}else{
 			user.spielEnde = false;
+		}	
+	}
+	
+	public static String bombenNaehe(){
+		int spalte = user.getSpalte();
+		int zeile = user.getZeile();
+		int[] bombenPos = myGame.zellen.bombenPos;
+		String[] bomben = Arrays.toString(bombenPos).split("[\\[\\]]")[1].split(", ");//verwandelt der int array zu ein String array.
+		
+			if (Spielplan.myGame.checkGesetzt(spalte, zeile) == false) {
+				int userEingabePos = Integer.parseInt(user.userEingabe);
+				int anzBombeNaeheCounter = 0;
+				for (String bombe : bomben) {
+					int bombePos = Integer.parseInt(bombe);
+					if (userEingabePos+1 == bombePos){
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos+10 == bombePos) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos+9 == bombePos ) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos+11 == bombePos ) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos-1 == bombePos ) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos-10 == bombePos ) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos-9 == bombePos) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos-11 == bombePos) {
+						anzBombeNaeheCounter++;
+					}
+				}
+				if (anzBombeNaeheCounter != 0) {
+					return Integer.toString(anzBombeNaeheCounter);
+				}else{
+					return Integer.toString(anzBombeNaeheCounter);
+				}
+			}
+			return null;
+		
+	}
+	
+	/*
+	 * überprüft ob die gegebene Position ein 0 hat und öffnet alle 0 wo in der nähe sind.
+	 * TODO alle nachbar Zellen wo keine bombe in der nähe haben öffnen.
+	 */
+	public void alleNachbarOeffnen(int zeichenSpalte, int zeichenZeile){
+		for (int x = 0; x < myGame.zeile+1; x++) {
+            for (int y = 1; y < myGame.spalte+1; y++) {
+            	if (myGame.spielfeld[zeichenSpalte][zeichenZeile] == "0") {
+            		if (bombenNaehe().equals("0")) {
+            								}
+            	}
+            }
 		}
-			
-	}	
+	}
 }

@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Zelle {
 
-	public int anzBomben = 2;
+	public int anzBomben = 10;
 	private int anzFlagen = 89;
 	public int[] bombenPos;
 	public int[] flagenPos;

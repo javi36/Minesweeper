@@ -3,9 +3,9 @@ package minesweeper;
 public class Spielfeld {
 
 	Zelle zellen = new Zelle();
-	private String[][] spielfeld;
-	private int spalte = 9;
-	private int zeile = 9;
+	public String[][] spielfeld;
+	public int spalte = 9;
+	public int zeile = 9;
 	private String leer = "-";
 	
 	/*
@@ -86,6 +86,9 @@ public class Spielfeld {
 		return false;
 	}
 	
+	/*
+	 * überprüft ob alle Zellen gesetzt sind. (d.H kein - vorhanden).
+	 */
 	public boolean checkAlleGesetzt(){
 		int anzZellen = zeile+1 * spalte;
 		int gesetzteZellenCounter = 0;
