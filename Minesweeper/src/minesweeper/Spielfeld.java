@@ -22,7 +22,7 @@ public class Spielfeld {
 		System.out.print("\t \t MINESWEEPER!");
 		System.out.println();
 		System.out.println("\n Legende: ");
-		System.out.print("\t \n * = Bombe \n ! = Flage \n - = leer");
+		System.out.print("\t \n * = Bombe \n ! = Flage \n - = leer \n T = aufdecken \n M = markieren");
 		
 		System.out.print("\n          ");
 		for (int i = 1; i < spalte+1; i++) {
@@ -84,6 +84,24 @@ public class Spielfeld {
             }
         }
 		return false;
+	}
+	
+	public boolean checkAlleGesetzt(){
+		int anzZellen = zeile+1 * spalte;
+		int gesetzteZellenCounter = 0;
+		for (int x = 0; x < this.zeile+1; x++) {
+            for (int y = 1; y < this.spalte+1; y++) {
+            	if (spielfeld[y][x] != leer) {
+            		gesetzteZellenCounter++;
+            	}
+            }
+		}
+		if (gesetzteZellenCounter == anzZellen) {
+			return true;
+		}else{
+			return false;
+		}
+		
 	}
 	/*
 	 * zeigt alle Bomben an

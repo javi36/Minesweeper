@@ -10,7 +10,7 @@ public class userKommando {
 	public boolean spielEnde = false;
 	private boolean isFlageGesetzt = false;
 	private int spalte, zeile;
-	private int markierenCounter = -1;
+	public int markierenCounter = -1;
 	
 	/*
 	 * gibt die Eingabe des Users zurück
@@ -64,7 +64,7 @@ public class userKommando {
 		zeile = getZeile();
 		int[] bombenPos = Spielplan.myGame.zellen.bombenPos;
 		String[] bomben = Arrays.toString(bombenPos).split("[\\[\\]]")[1].split(", ");//verwandelt der int array zu ein String array.
-		System.out.println(Arrays.toString(bomben)); //kontrolle
+		System.out.println("Bomben Position: "+Arrays.toString(bomben)); //kontrolle
 		
 		for (String bombe : bomben) {
 			if (userEingabe.equals(bombe)) {
@@ -72,10 +72,26 @@ public class userKommando {
 				Spielplan.myGame.zeigeBomben();
 				spielEnde = true;	
 			}
+			
 		}
+		// TODO Beheben: Zeichnet 2 mal der Spielfeld wenn eine bombe in der nähe ist. 
+		// TODO restlichen Algorithmus beenden.
 		if (spielEnde == false) {
 			if (Spielplan.myGame.checkGesetzt(spalte, zeile) == false) {
 				Spielplan.myGame.zeichne(spalte, zeile, "0");
+				int userEingabePos = Integer.parseInt(userEingabe);
+				for (String bombe : bomben) {
+					int bombePos = Integer.parseInt(bombe);
+					if (userEingabePos+1 == bombePos || userEingabePos+10 == bombePos || 
+							userEingabePos+9 == bombePos || userEingabePos+11 == bombePos ||
+							userEingabePos-1 == bombePos || userEingabePos-10 == bombePos || 
+							userEingabePos-9 == bombePos || userEingabePos-11 == bombePos ) {
+						Spielplan.myGame.zeichne(spalte, zeile, "1");
+					}else{
+						//Spielplan.myGame.zeichne(spalte, zeile, "0");
+					}
+				}
+				//Spielplan.myGame.zeichne(spalte, zeile, "0");
 			}
 		}
 	}

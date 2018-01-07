@@ -26,7 +26,6 @@ public class Spielplan {
 	}
 	/*
 	 * Rüft kommando auf. 
-	 * TODO: Fehlt der Algorithmus.
 	 */
 	private static void doSpielzug() throws IOException{
 		user.kommando();
@@ -45,21 +44,27 @@ public class Spielplan {
 	}
 	/*
 	 * Überprüft ob man das Spiel gewonnen hat. 
+	 * überprüft ob alle anderen Felder aufgedeckt sind und die bomben markiert sind.
 	 */
 	private static void checkWin(){
-		//TODO: überprüfung ob alle anderen Felder aufgedeckt sind und dann hat man gewonnen.
-		int bombenCounter = 0;
+		//TODO: 
+		int anzMarkiertenBomben = 0;
+		int anzFlagen = user.markierenCounter+1;
+		int anzBomben = myGame.zellen.anzBomben;
 		int[] bombenPos = myGame.zellen.bombenPos;
 		int[] flagenPos = myGame.zellen.flagenPos;
-		for (int flagePos : flagenPos) {
-			for (int bombePos : bombenPos) {
+		
+		for (int bombePos : bombenPos) {
+			for (int flagePos : flagenPos) {
 				if (flagePos == bombePos) {
-					bombenCounter++;
+					anzMarkiertenBomben++;
 					user.spielEnde = true;
 				}
 			}
 		}
-		if (bombenCounter == myGame.zellen.anzBomben) {
+		if (anzMarkiertenBomben == anzBomben && 
+				anzFlagen == anzBomben && 
+				myGame.checkAlleGesetzt() == true) {
 			user.spielEnde = true;
 			System.out.println("GEWONNEN!!!");
 		}else{
