@@ -76,6 +76,7 @@ public class userKommando {
 		}
 		if (spielEnde == false) {
 			Spielplan.myGame.zeichne(spalte, zeile, Spielplan.bombenNaehe());
+			Spielplan.alleNachbarOeffnen(spalte, zeile);
 		}
 	}
 	/*
