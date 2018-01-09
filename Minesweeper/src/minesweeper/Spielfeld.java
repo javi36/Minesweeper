@@ -1,18 +1,16 @@
 package minesweeper;
 
-public class Spielfeld {
+import java.util.Arrays;
 
+public class Spielfeld {
 	Zelle zellen = new Zelle();
-	public String[][] spielfeld;
-	public int spalte = 9;
-	public int zeile = 9;
 	private String leer = "-";
-	
+
 	/*
 	 * Initialisiert die Matrix (Spielfeld)
 	 */
 	Spielfeld(){
-		spielfeld = new String[spalte+1][zeile+1];
+		
 		makeSpielfeld();
 	}
 	/*
@@ -25,76 +23,60 @@ public class Spielfeld {
 		System.out.print("\t \n * = Bombe \n ! = Flage \n - = leer \n T = aufdecken \n M = markieren");
 		
 		System.out.print("\n          ");
-		for (int i = 1; i < spalte+1; i++) {
+		for (int i = 1; i < zellen.spalte+1; i++) {
 			System.out.print("  "+i + " ");
 		//System.out.println("\n            1   2   3   4   5   6   7   8   9");
 		}
 		System.out.println();
-		for (int x = 0; x < zeile+1; x++) {
+		for (int x = 0; x < zellen.zeile+1; x++) {
             System.out.print("       "+x + " ");
             
-            for (int y = 1; y < spalte+1; y++) {
-            	spielfeld[y][x] = leer;
-                    System.out.print("   "+ spielfeld[y][x]);
+            for (int y = 1; y < zellen.spalte+1; y++) {
+            	zellen.spielfeld[y][x] = leer;
+                    System.out.print("   "+ zellen.spielfeld[y][x]);
             }
                 
             System.out.println();
         }
 		System.out.println();//lücke
 		System.out.println("Geben Sie ein Kommando ein: ");	
-		zellen.setBombe();
 	}
 	
 	/*
 	 * Erstellt die weitere Spielfelder mit 
 	 * der richtige position der aufgedeckten Felder/Bomben/Flagen.
 	 */
-	public void zeichne(int zeichenSpalte, int zeichenZeile, String zeichen){
+	public void updateSpielfeld(int zeichenSpalte, int zeichenZeile, String zeichen){
 		System.out.print("\t \t MINESWEEPER!");
 		System.out.println();
 		System.out.print("\n          ");
-		for (int i = 1; i < this.spalte+1; i++) {
+		for (int i = 1; i < zellen.spalte+1; i++) {
 			System.out.print("  "+i + " ");
 		}
 		System.out.println();
-		for (int x = 0; x < this.zeile+1; x++) {
+		for (int x = 0; x < zellen.zeile+1; x++) {
             System.out.print("       "+x + " ");
             
-            for (int y = 1; y < this.spalte+1; y++) {
-            	spielfeld[zeichenSpalte][zeichenZeile] = zeichen;
-                 System.out.print("   "+ spielfeld[y][x]);
+            for (int y = 1; y < zellen.spalte+1; y++) {
+            	zellen.spielfeld[zeichenSpalte][zeichenZeile] = zeichen;
+                 System.out.print("   "+ zellen.spielfeld[y][x]);
             }
                 
             System.out.println();
-            
         }
 		System.out.println("Geben Sie ein Kommando ein: ");	
 	}
-	/*
-	 * überprüft ob die Position schon gesetzt wurde
-	 */
-	public boolean checkGesetzt(int zeichenSpalte, int zeichenZeile){
-		for (int x = 0; x < this.zeile+1; x++) {
-            for (int y = 1; y < this.spalte+1; y++) {
-            	if (spielfeld[zeichenSpalte][zeichenZeile] != leer) {
-            		System.out.println("Position schon gesetzt");
-            		System.out.println("Geben Sie ein Kommando ein: ");	
-					return true;
-				}     
-            }
-        }
-		return false;
-	}
+	
 	
 	/*
 	 * überprüft ob alle Zellen gesetzt sind. (d.H kein - vorhanden).
 	 */
 	public boolean checkAlleGesetzt(){
-		int anzZellen = zeile+1 * spalte;
+		int anzZellen = zellen.zeile+1 * zellen.spalte;
 		int gesetzteZellenCounter = 0;
-		for (int x = 0; x < this.zeile+1; x++) {
-            for (int y = 1; y < this.spalte+1; y++) {
-            	if (spielfeld[y][x] != leer) {
+		for (int x = 0; x < zellen.zeile+1; x++) {
+            for (int y = 1; y < zellen.spalte+1; y++) {
+            	if (zellen.spielfeld[y][x] != leer) {
             		gesetzteZellenCounter++;
             	}
             }
@@ -113,25 +95,62 @@ public class Spielfeld {
 		System.out.print("\t \t MINESWEEPER!");
 		System.out.println();
 		System.out.print("\n          ");
-		for (int i = 1; i < this.spalte+1; i++) {
+		for (int i = 1; i < zellen.spalte+1; i++) {
 			System.out.print("  "+i + " ");
 		}
 		System.out.println();
-		for (int x = 0; x < this.zeile+1; x++) {
+		for (int x = 0; x < zellen.zeile+1; x++) {
             System.out.print("       "+x + " ");
             
-            for (int y = 1; y < this.spalte+1; y++) {
+            for (int y = 1; y < zellen.spalte+1; y++) {
             	for (int bombe : zellen.bombenPos) {
 					String bombePos = Integer.toString(bombe);
 					String[] pos = bombePos.split("", 2);
 					int spalte = Integer.parseInt(pos[0]);
 					int zeile = Integer.parseInt(pos[1]);
-					spielfeld[spalte][zeile] = "*";
+					zellen.spielfeld[spalte][zeile] = "*";
 				}
-            	System.out.print("   "+ spielfeld[y][x]);    
+            	System.out.print("   "+ zellen.spielfeld[y][x]);    
             }     
             System.out.println();
         }
 	}
 	
+	public String bombenNaehe(){
+		int spalte = Spielplan.user.getSpalte();
+		int zeile = Spielplan.user.getZeile();
+		int[] bombenPos = zellen.bombenPos;
+		String[] bomben = Arrays.toString(bombenPos).split("[\\[\\]]")[1].split(", ");//verwandelt der int array zu ein String array.
+		
+			if (zellen.checkGesetzt(spalte, zeile) == false) {
+				int userEingabePos = Integer.parseInt(Spielplan.user.userEingabe);
+				int anzBombeNaeheCounter = 0;
+				for (String bombe : bomben) {
+					int bombePos = Integer.parseInt(bombe);
+					if (userEingabePos+1 == bombePos){
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos+10 == bombePos) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos+9 == bombePos ) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos+11 == bombePos ) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos-1 == bombePos ) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos-10 == bombePos ) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos-9 == bombePos) {
+						anzBombeNaeheCounter++;
+					}else if(userEingabePos-11 == bombePos) {
+						anzBombeNaeheCounter++;
+					}
+				}
+				if (anzBombeNaeheCounter != 0) {
+					return Integer.toString(anzBombeNaeheCounter);
+				}else{
+					return Integer.toString(anzBombeNaeheCounter);
+				}
+			}
+			return "0";
+	}
 }

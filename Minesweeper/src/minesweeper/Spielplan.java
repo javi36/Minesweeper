@@ -75,44 +75,7 @@ public class Spielplan {
 		}	
 	}
 	
-	public static String bombenNaehe(){
-		int spalte = user.getSpalte();
-		int zeile = user.getZeile();
-		int[] bombenPos = myGame.zellen.bombenPos;
-		String[] bomben = Arrays.toString(bombenPos).split("[\\[\\]]")[1].split(", ");//verwandelt der int array zu ein String array.
-		
-			if (Spielplan.myGame.checkGesetzt(spalte, zeile) == false) {
-				int userEingabePos = Integer.parseInt(user.userEingabe);
-				int anzBombeNaeheCounter = 0;
-				for (String bombe : bomben) {
-					int bombePos = Integer.parseInt(bombe);
-					if (userEingabePos+1 == bombePos){
-						anzBombeNaeheCounter++;
-					}else if(userEingabePos+10 == bombePos) {
-						anzBombeNaeheCounter++;
-					}else if(userEingabePos+9 == bombePos ) {
-						anzBombeNaeheCounter++;
-					}else if(userEingabePos+11 == bombePos ) {
-						anzBombeNaeheCounter++;
-					}else if(userEingabePos-1 == bombePos ) {
-						anzBombeNaeheCounter++;
-					}else if(userEingabePos-10 == bombePos ) {
-						anzBombeNaeheCounter++;
-					}else if(userEingabePos-9 == bombePos) {
-						anzBombeNaeheCounter++;
-					}else if(userEingabePos-11 == bombePos) {
-						anzBombeNaeheCounter++;
-					}
-				}
-				if (anzBombeNaeheCounter != 0) {
-					return Integer.toString(anzBombeNaeheCounter);
-				}else{
-					return Integer.toString(anzBombeNaeheCounter);
-				}
-			}
-			return null;
-		
-	}
+	
 	
 	/*
 	 * überprüft ob die gegebene Position ein 0 hat und öffnet alle 0 wo in der nähe sind.
@@ -128,9 +91,10 @@ public class Spielplan {
 		naehePos[5] = userEingabePos-1;
 		naehePos[6] = userEingabePos-10;
 		naehePos[7] = userEingabePos-11;
-		for (int x = 0; x < myGame.zeile+1; x++) {
-            for (int y = 1; y < myGame.spalte+1; y++) {
-            	if (myGame.spielfeld[zeichenSpalte][zeichenZeile].equals( "0")) {
+		for (int x = 0; x < myGame.zellen.zeile+1; x++) {
+            for (int y = 1; y < myGame.zellen.spalte+1; y++) {
+            	if (myGame.zellen.spielfeld[zeichenSpalte][zeichenZeile].equals("0")) {
+            		while(myGame.bombenNaehe().equals("0")){	
             			for (int i : naehePos) {
             				String iPos = Integer.toString(i);
             				String[] pos = iPos.split("", 2);
@@ -140,8 +104,9 @@ public class Spielplan {
             				int spalte = Integer.parseInt(pos[0]);
             				int zeile = Integer.parseInt(pos[1]);
             				
-            				myGame.zeichne(spalte, zeile, "0");
+            				myGame.updateSpielfeld(spalte, zeile, "0");
 						}
+            		}
             	}
             }
 		}

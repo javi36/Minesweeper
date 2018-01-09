@@ -72,11 +72,10 @@ public class userKommando {
 				Spielplan.myGame.zeigeBomben();
 				spielEnde = true;	
 			}
-			
 		}
 		if (spielEnde == false) {
-			Spielplan.myGame.zeichne(spalte, zeile, Spielplan.bombenNaehe());
-			Spielplan.alleNachbarOeffnen(spalte, zeile);
+			Spielplan.myGame.updateSpielfeld(spalte, zeile, Spielplan.myGame.bombenNaehe());
+			//Spielplan.alleNachbarOeffnen(spalte, zeile);
 		}
 	}
 	/*
@@ -86,21 +85,9 @@ public class userKommando {
 		spalte = getSpalte();
 		zeile = getZeile();
 		int pos = spalte * 10 + zeile;
-		
-		int[] flagenPos = Spielplan.myGame.zellen.flagenPos;
-		String[] flagen = Arrays.toString(flagenPos).split("[\\[\\]]")[1].split(", ");
-		
-		for (String flage : flagen) {
-			if (userEingabe.equals(flage)) {
-				System.out.println("Flage wurde schon gesetzt");
-				isFlageGesetzt = true;
-			}	
-		}
-		if (isFlageGesetzt == false) {
+		if (Spielplan.myGame.zellen.checkGesetzt(spalte, zeile) == false) {
 			Spielplan.myGame.zellen.flagenPos[markierenCounter] = pos;//fügt die markiert Flage im flagenPos array.
-			if (Spielplan.myGame.checkGesetzt(spalte, zeile) == false) {
-				Spielplan.myGame.zeichne(spalte, zeile, "!");
-			}	
+			Spielplan.myGame.updateSpielfeld(spalte, zeile, "!");	
 		}
 	}
 }
